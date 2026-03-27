@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- 允许通过 Apple Events 控制其他应用（Accessibility API 依赖此权限） -->
+    <key>com.apple.security.automation.apple-events</key>
+    <true/>
+
+    <!--
+        注意：com.apple.security.temporary-exception.accessibility 需要
+        Apple 开发者账号审核通过才能在公证（notarize）时使用。
+        对于未签名分发，此项可保留；对于 App Store 分发，需向 Apple 申请例外。
+    -->
+    <key>com.apple.security.temporary-exception.accessibility</key>
+    <true/>
+</dict>
+</plist>
