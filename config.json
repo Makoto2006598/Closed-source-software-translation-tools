@@ -1,0 +1,9 @@
+{
+  "claude_app_path": "/Applications/Claude.app",
+  "api_key": "",
+  "target_language": "zh-CN",
+  "refresh_interval": 1.5,
+  "overlay_opacity": 0.95,
+  "font_name": "PingFangSC-Regular",
+  "font_size_offset": -1
+}

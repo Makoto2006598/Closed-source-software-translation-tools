@@ -1,0 +1,5 @@
+pyobjc>=9.0
+pyobjc-framework-Cocoa>=9.0
+pyobjc-framework-ApplicationServices>=9.0
+anthropic>=0.25.0
+python-dotenv>=1.0.0
