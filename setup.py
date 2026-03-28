@@ -103,5 +103,5 @@ setup(
     description="非侵入式 macOS 应用 UI 汉化工具",
     data_files=DATA_FILES,
     options={"py2app": OPTIONS},
-    setup_requires=["py2app"],
+    # py2app 通过 pip 安装，不使用已废弃的 setup_requires
 )
