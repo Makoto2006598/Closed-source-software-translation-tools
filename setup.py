@@ -34,21 +34,23 @@ OPTIONS = {
         "overlay",
         "translator",
         "translation_extractor",
+        # PyObjC 框架（overlay.py 中 try/except 包裹导入，modulegraph 可能
+        # 将其视为可选而跳过，必须显式声明确保打包进 .app）
+        "AppKit",
+        "ApplicationServices",
+        "Foundation",
+        "objc",
         # anthropic 的关键传递依赖（以 includes 而非 packages 方式引入，更安全）
         "httpx",
         "httpcore",
+        "pydantic",
+        "pydantic_core",
         "anyio",
         "sniffio",
         "h11",
         "certifi",
         "idna",
         "dotenv",
-        # 标准库中 py2app 可能遗漏的模块
-        "json",
-        "logging",
-        "threading",
-        "plistlib",
-        "shutil",
     ],
 
     # 明确排除不需要的包，减小体积
