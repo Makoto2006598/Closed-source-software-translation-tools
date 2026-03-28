@@ -26,12 +26,10 @@ OPTIONS = {
         "httpx",
         "httpcore",
         "certifi",
-        "charset_normalizer",
         "idna",
         "anyio",
         "sniffio",
         "h11",
-        # h2 仅在 httpx 启用 HTTP/2 时才会安装，不强制包含
     ],
 
     # 项目内部模块（需显式 include，避免被遗漏）
