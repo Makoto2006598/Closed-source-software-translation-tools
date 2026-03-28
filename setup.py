@@ -6,7 +6,6 @@ setup.py — py2app 打包配置
   python setup.py py2app --alias  # 开发模式（不复制文件，调试用）
 """
 
-import os
 from setuptools import setup
 
 APP = ["main.py"]
@@ -32,7 +31,7 @@ OPTIONS = {
         "anyio",
         "sniffio",
         "h11",
-        "h2",
+        # h2 仅在 httpx 启用 HTTP/2 时才会安装，不强制包含
     ],
 
     # 项目内部模块（需显式 include，避免被遗漏）
@@ -70,7 +69,7 @@ OPTIONS = {
         "CFBundleIdentifier": "com.claude-ui-localizer",
         "CFBundleVersion": "1.0.0",
         "CFBundleShortVersionString": "1.0.0",
-        "CFBundleExecutable": "Claude UI Localizer",
+        # CFBundleExecutable 由 py2app 自动设置，手动指定会导致 .app 无法启动
 
         # 权限说明（macOS 系统要求明确声明用途）
         "NSAppleEventsUsageDescription": (

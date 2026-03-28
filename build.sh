@@ -60,7 +60,7 @@ echo "[✓] 依赖安装完成"
 # ── 清理旧构建 ────────────────────────────────────
 echo ""
 echo "=== 清理旧构建 ==="
-rm -rf build/ dist/ "${APP_NAME}.egg-info/"
+rm -rf build/ dist/ Claude_UI_Localizer.egg-info/ "Claude UI Localizer.egg-info/"
 echo "[✓] 清理完成"
 
 # ── 构建 .app bundle ──────────────────────────────
