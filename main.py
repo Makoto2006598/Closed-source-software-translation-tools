@@ -16,18 +16,41 @@ import sys
 import time
 import threading
 
+def _get_app_support_dir() -> str:
+    """获取用户可写的数据目录：~/Library/Application Support/ClaudeUILocalizer/"""
+    app_support = os.path.join(
+        os.path.expanduser("~"), "Library", "Application Support", "ClaudeUILocalizer"
+    )
+    os.makedirs(app_support, exist_ok=True)
+    return app_support
+
+
+# 日志写到用户目录（.app bundle 内部只读）
+_log_path = os.path.join(_get_app_support_dir(), "localizer.log")
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
     handlers=[
         logging.StreamHandler(sys.stdout),
-        logging.FileHandler("localizer.log", encoding="utf-8"),
+        logging.FileHandler(_log_path, encoding="utf-8"),
     ],
 )
 logger = logging.getLogger(__name__)
 
-CONFIG_PATH = os.path.join(os.path.dirname(__file__), "config.json")
-TRANSLATIONS_PATH = os.path.join(os.path.dirname(__file__), "translations.json")
+# 资源目录（bundle 内随附的 config/translations 模板）
+_BUNDLE_DIR = os.path.dirname(os.path.abspath(__file__))
+# 可写数据目录（翻译更新写到这里，优先读取）
+_DATA_DIR = _get_app_support_dir()
+
+CONFIG_PATH = os.path.join(_BUNDLE_DIR, "config.json")
+TRANSLATIONS_PATH = os.path.join(_DATA_DIR, "translations.json")
+
+# 首次运行时：将 bundle 内置翻译表复制到用户目录（之后可安全写入）
+_bundled_translations = os.path.join(_BUNDLE_DIR, "translations.json")
+if not os.path.exists(TRANSLATIONS_PATH) and os.path.exists(_bundled_translations):
+    import shutil
+    shutil.copy2(_bundled_translations, TRANSLATIONS_PATH)
+    logging.getLogger(__name__).info(f"已复制内置翻译表到 {TRANSLATIONS_PATH}")
 
 
 def load_config() -> dict:

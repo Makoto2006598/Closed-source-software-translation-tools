@@ -26,12 +26,10 @@ OPTIONS = {
         "httpx",
         "httpcore",
         "certifi",
-        "charset_normalizer",
         "idna",
         "anyio",
         "sniffio",
         "h11",
-        # h2 仅在 httpx 启用 HTTP/2 时才会安装，不强制包含
     ],
 
     # 项目内部模块（需显式 include，避免被遗漏）
@@ -105,5 +103,5 @@ setup(
     description="非侵入式 macOS 应用 UI 汉化工具",
     data_files=DATA_FILES,
     options={"py2app": OPTIONS},
-    setup_requires=["py2app"],
+    # py2app 通过 pip 安装，不使用已废弃的 setup_requires
 )

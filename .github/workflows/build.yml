@@ -50,10 +50,21 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
           echo "构建版本：$VERSION"
 
+      - name: Update version in setup.py
+        run: |
+          VERSION="${{ steps.version.outputs.VERSION }}"
+          python -c "
+          import re, sys
+          text = open('setup.py').read()
+          text = re.sub(r'\"CFBundleVersion\": \"[^\"]*\"', '\"CFBundleVersion\": \"$VERSION\"', text)
+          text = re.sub(r'\"CFBundleShortVersionString\": \"[^\"]*\"', '\"CFBundleShortVersionString\": \"$VERSION\"', text)
+          text = re.sub(r'version=\"[^\"]*\"', 'version=\"$VERSION\"', text)
+          open('setup.py', 'w').write(text)
+          "
+
       - name: Build .app bundle
         run: python setup.py py2app 2>&1
         env:
-          # 避免 py2app 因找不到 Xcode 工具链而报错
           MACOSX_DEPLOYMENT_TARGET: "12.0"
 
       - name: Verify .app bundle
