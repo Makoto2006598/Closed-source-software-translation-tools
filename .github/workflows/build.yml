@@ -18,7 +18,7 @@ permissions:
 jobs:
   build:
     name: Build DMG on macOS
-    runs-on: macos-13   # 固定 macOS 13，避免 macos-latest 频繁变动带来的兼容性问题
+    runs-on: macos-latest
 
     steps:
       - name: Checkout repository
