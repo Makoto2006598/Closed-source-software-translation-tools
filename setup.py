@@ -19,30 +19,36 @@ OPTIONS = {
     # 不模拟 sys.argv[0]（py2app 开启此项有时导致崩溃）
     "argv_emulation": False,
 
-    # 需要完整打包的第三方库
+    # 需要完整打包的包（仅列出 py2app 自动分析会遗漏的）
+    # 注意：不要列出不确定是否安装的包！
+    # py2app 的 collect_packagedirs 会对每个包调用 imp.find_module()，
+    # 任何一个找不到都会导致 ImportError 构建失败。
+    # 其余包由 py2app 的 modulegraph 和 recipe 系统自动发现。
     "packages": [
-        "anthropic",
-        "dotenv",          # python-dotenv 的实际包名
-        "httpx",
-        "httpcore",
-        "certifi",
-        "idna",
-        "anyio",
-        "sniffio",
-        "h11",
+        "anthropic",       # 有大量动态导入的子模块，必须完整打包
     ],
 
-    # 项目内部模块（需显式 include，避免被遗漏）
+    # 需要显式包含的模块（py2app 自动分析可能遗漏的）
     "includes": [
+        # 项目内部模块
         "overlay",
         "translator",
         "translation_extractor",
+        # anthropic 的关键传递依赖（以 includes 而非 packages 方式引入，更安全）
+        "httpx",
+        "httpcore",
+        "anyio",
+        "sniffio",
+        "h11",
+        "certifi",
+        "idna",
+        "dotenv",
+        # 标准库中 py2app 可能遗漏的模块
         "json",
         "logging",
         "threading",
         "plistlib",
-        "re",
-        "pathlib",
+        "shutil",
     ],
 
     # 明确排除不需要的包，减小体积

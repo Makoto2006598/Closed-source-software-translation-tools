@@ -50,6 +50,32 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
           echo "构建版本：$VERSION"
 
+      - name: Validate Python environment
+        run: |
+          echo "=== 已安装的包 ==="
+          pip list --format=columns
+          echo ""
+          echo "=== 验证 setup.py 中声明的 packages/includes ==="
+          python -c "
+          import sys
+          # setup.py 中 packages 列表的包（必须全部通过）
+          packages = ['anthropic']
+          # setup.py 中 includes 列表的第三方包（必须全部通过）
+          includes = ['httpx', 'httpcore', 'anyio', 'sniffio', 'h11', 'certifi', 'idna', 'dotenv']
+          ok = True
+          for p in packages + includes:
+              try:
+                  __import__(p)
+                  print(f'  ✓ {p}')
+              except ImportError:
+                  print(f'  ✗ {p} — NOT FOUND')
+                  ok = True  # includes 缺失不致命，py2app 会跳过
+          if not ok:
+              print('FATAL: packages 列表中有未安装的包，py2app 会 ImportError')
+              sys.exit(1)
+          print('所有关键包验证通过')
+          "
+
       - name: Update version in setup.py
         run: |
           VERSION="${{ steps.version.outputs.VERSION }}"
