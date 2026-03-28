@@ -23,16 +23,16 @@ OPTIONS = {
     # 需要完整打包的第三方库
     "packages": [
         "anthropic",
-        "dotenv",
+        "dotenv",          # python-dotenv 的实际包名
         "httpx",
         "httpcore",
         "certifi",
         "charset_normalizer",
         "idna",
-        "urllib3",
         "anyio",
         "sniffio",
-        "distutils",
+        "h11",
+        "h2",
     ],
 
     # 项目内部模块（需显式 include，避免被遗漏）
